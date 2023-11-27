@@ -48,7 +48,7 @@ export class Recell<T> {
   }
 
   /**
-   * Задает функцию расчета значения ячейки. Опционально можно явно указать зависимости.
+   * Use compute function and mark cell as obsoleted
    */
   compute(func: ComputeFunc<T>): Recell<T> {
     this._compute = func;
@@ -58,7 +58,7 @@ export class Recell<T> {
   }
 
   /**
-   * Отслеживает указанные ячейки
+   * Watch selected cells, obsoletes as they are obsoleted
    * @param values
    */
   watch(...values: Recell<any>[]) {
@@ -68,16 +68,15 @@ export class Recell<T> {
     return this;
   }
 
-  /**
-   * Перестает следить за указанными ячейками
-   * @param values
-   */
   unwatch(...values: Recell<any>[]) {
     values.forEach(v => RELATIONS.unbind(this, v));
 
     return this;
   }
 
+  /**
+   * Remove all relations between cells, drop compute function (if set) and trigger Dispose event
+   */
   dispose(): void {
     this._compute = undefined;
 
@@ -89,6 +88,11 @@ export class Recell<T> {
     this.events.dispose();
   }
 
+  /**
+   * Subscribe on changes or obsolete trigger
+   * @param handler
+   * @param runImmediate
+   */
   subscribe(handler: (v: () => T) => any, runImmediate = true): () => void {
     if (runImmediate) {
       handler(() => this.value);
@@ -123,13 +127,6 @@ export class Recell<T> {
     return this._obsolete(true);
   }
 
-  /**
-   * Отмечает устаревшими все зависящие ячейки по цепочке
-   *
-   * TODO: защита от зацикливания
-   * @param includeSelf - включая эту ячейку
-   * @private
-   */
   private _obsolete(includeSelf: boolean) {
     if (includeSelf) {
       this.obsoleted = true;
