@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "declaration": true,
+    "strict": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "rootDir": ".",
+    "outDir": "./dist",
+    "resolveJsonModule": true,
+    "lib": ["es2017", "dom"],
+    "esModuleInterop": true,
+    "jsx": "react"
+  },
+  "exclude": ["node_modules", "dist", "**/*.spec.ts"]
+}
