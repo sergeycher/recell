@@ -117,7 +117,7 @@ export class Recell<T> {
    * @param mapper
    */
   map<K>(mapper: (v: T) => K): Recell<K> {
-    return new Recell(undefined as K).compute(() => mapper(this.value)).watch(this);
+    return new Recell(undefined as any).compute(() => mapper(this.value)).watch(this);
   }
 
   /**
@@ -149,5 +149,5 @@ export class Recell<T> {
 }
 
 export function recell<T>(value: T) {
-  return new Recell<T>(value as T);
+  return new Recell<T>(value as any);
 }
