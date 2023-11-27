@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "rm -rf ./dist/* && tsc",
-    "test": "mocha --require ts-node/register --ui bdd './**/*.spec.ts'"
+    "test": "mocha --require ts-node/register --ui bdd './**/*.spec.ts'",
+    "postinstall": "npm run build"
   },
   "keywords": [
     "reactive",
