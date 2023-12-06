@@ -57,4 +57,29 @@ describe('Reactive cell', () => {
     b.value.should.be.exactly(9);
     b.obsolete().value.should.be.exactly(15);
   });
+
+  it('should not emit same value', () => {
+    const c = recell(1);
+    let counterC = 0;
+
+    c.subscribe(() => {
+      counterC++;
+    });
+
+    counterC.should.be.exactly(1);
+
+    c.next(1);
+    counterC.should.be.exactly(1);
+
+    let counterD = 0;
+    const d = c.map((v) => v > 0 ? 1 : -1);
+    d.subscribe(() => {
+      counterD++;
+    });
+    counterD.should.be.exactly(1);
+    c.next(5);
+    // по логике значение D не меняется и D не должно эмитить, однако у нас нет технической возможности проверить изменилось ли значение
+    // если наблюдаемая ячейка изменилась - ТОЧНО изменится и наблюдающая, даже если ее значение осталось прежним
+    counterD.should.be.exactly(2);
+  });
 });

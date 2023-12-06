@@ -111,6 +111,10 @@ export class Recell<T> {
     });
   }
 
+  onDispose(handler: () => any) {
+    return this.on([Events.disposed], handler);
+  }
+
   /**
    * Shorthand for `const b = recell(undefined).compute(mapper).watch(a)`
    *
@@ -143,8 +147,7 @@ export class Recell<T> {
       return;
     }
 
-    this.value = this._compute(this._value);
-    this.obsoleted = false;
+    this.next(this._compute(this._value));
   }
 }
 
