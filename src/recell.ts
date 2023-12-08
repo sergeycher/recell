@@ -39,7 +39,7 @@ export class Recell<T> {
   next(v: T): this {
     if (this._value !== v) {
       this._value = v;
-
+      this.obsoleted = false;
       this._obsolete(false);
       this.events.next(Events.changed);
     }

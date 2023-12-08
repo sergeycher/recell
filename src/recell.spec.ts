@@ -32,6 +32,7 @@ describe('Reactive cell', () => {
 
     ab.value.should.be.exactly(2);
     a.value = 5;
+    ab.value.should.be.exactly(2);
     b.value = 4;
     ab.value.should.be.exactly(2);
 
